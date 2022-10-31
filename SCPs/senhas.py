@@ -34,8 +34,8 @@ wordlist = ""
 if options.wordlist:
     wordlist += options.wordlist
 
-def crack_password():
-    global password
+def crack_password(): 
+    global password 
     global output
     global wordlist
     global salt
@@ -159,5 +159,5 @@ dump_email()
 dump_password()
 
 if options.cracking:
-    crack_password()
+    crack_password()  
 
