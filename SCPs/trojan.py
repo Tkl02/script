@@ -4,6 +4,8 @@ import threading
 import time
 import os
 
+# exucuçao de maneira anonima " pyinstaller -f --clean -w "
+
 ip = ""
 port = 443
 
